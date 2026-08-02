@@ -170,3 +170,135 @@ Các thuộc tính chính:
     ```html
     <link rel="icon" href="icon-32.png" sizes="32x32">
     ```
+
+## 2. Body elements
+### 2.1. Text basic
+
+```html
+<!-- Cơ bản -->
+<h1>Hello World!</h1>
+<p>This is my first web page.</p>
+
+<!-- Đầy đủ -->
+<h1 style="font-size: 3.2rem; color: #333;">Hello World!</h1>
+<p style="font-size: 1.6rem; font-weight: 400; line-height: 1.5; color: #555; text-align: left;">
+    This is <strong>my</strong> first <em>web page</em>, và tôi rất <mark>thích</mark> nó.
+</p>
+```
+
+- Các loại thẻ text:
+
+    | Thẻ | Ý nghĩa | Ví dụ |
+    |---|---|---|
+    | `h1`, `h2`, `h3`, `h4`, `h5`, `h6` | Tiêu đề (heading) — mức độ quan trọng/kích thước giảm dần từ `h1` đến `h6` | `<h1>Tiêu đề chính</h1>` |
+    | `p` | Đoạn văn bản | `<p>Nội dung đoạn văn.</p>` |
+    | `span` | Khối inline không mang ý nghĩa ngữ nghĩa riêng, dùng để bọc và style một phần nhỏ của text | `<span style="color: red;">chữ đỏ</span>` |
+    | `b` | In đậm thuần hiển thị, không mang ý nghĩa ngữ nghĩa - Tương đương `<span style="font-weight: bold;">` | `<b>đậm</b>` |
+    | `strong` | Nhấn mạnh nội dung **quan trọng** (in đậm, có ý nghĩa ngữ nghĩa) - Trình đọc sẽ nhấn mạnh khi gặp thẻ này | `<strong>quan trọng</strong>` |
+    | `i` | In nghiêng thuần hiển thị, không mang ý nghĩa ngữ nghĩa | `<i>nghiêng</i>` |
+    | `em` | Nhấn mạnh nội dung (in nghiêng, có ý nghĩa ngữ nghĩa) - Trình đọc sẽ nhấn mạnh khi gặp thẻ này | `<em>nhấn mạnh</em>` |
+    | `small` | Chữ nhỏ hơn — thường dùng cho ghi chú, disclaimer - Tương đương `<span style="font-size: smaller;">` | `<small>ghi chú nhỏ</small>` |
+    | `mark` | Đánh dấu highlight nội dung | `<mark>từ khóa</mark>` |
+    | `del` / `ins` | `del` gạch ngang (nội dung đã xóa), `ins` gạch chân (nội dung mới thêm) | `<del>giá cũ</del> <ins>giá mới</ins>` |
+    | `sub` / `sup` | Chỉ số dưới / chỉ số trên | `H<sub>2</sub>O`, `x<sup>2</sup>` |
+    | `br` | Xuống dòng, không tạo đoạn mới như thẻ `<p>` | `Dòng 1<br>Dòng 2` |
+    | `hr` | Đường kẻ ngang, phân cách nội dung theo chủ đề | `<hr>` |
+
+- Các thuộc tính CSS chính thường dùng để style cho text:
+
+    - **font-size**: kích thước chữ. Có thể khai báo bằng nhiều loại đơn vị:
+
+        | Đơn vị | Loại | Ý nghĩa | Ví dụ |
+        |---|---|---|---|
+        | `px` | Tuyệt đối | Cố định, không phụ thuộc phần tử nào khác | `font-size: 16px;` |
+        | `rem` | Tương đối | Theo font-size của thẻ `<html>` — **không cộng dồn**, nhất quán dù lồng sâu | `font-size: 1.5rem;` |
+        | `em` | Tương đối | Theo font-size của phần tử cha — **cộng dồn** khi lồng nhiều cấp | `font-size: 1.5em;` |
+        | `%` | Tương đối | Tương tự `em`, tính theo % font-size của phần tử cha | `font-size: 150%;` |
+        | `vw` | Tương đối viewport | Theo % chiều rộng màn hình — dùng cho fluid typography | `font-size: 5vw;` |
+
+        <details>
+        <summary> Xem phần khác biệt chi tiết giữa `em` và `rem` ở ghi chú bên dưới bảng default heading.</summary>
+
+        <br>
+
+        Ví dụ minh họa sự khác nhau:
+
+        ```html
+        <html style="font-size: 16px;">
+            <div style="font-size: 20px;">
+                <p style="font-size: 1.5em;">Chữ này = 20 × 1.5 = 30px</p>
+                <p style="font-size: 1.5rem;">Chữ này = 16 × 1.5 = 24px</p>
+            </div>
+        </html>
+        ```
+
+        - `em` tính theo font-size của **phần tử cha trực tiếp** (`div` = 20px) → `1.5em` = 30px.
+        - `rem` luôn tính theo font-size của **thẻ gốc `<html>`** (16px), bất kể nằm lồng sâu bao nhiêu → `1.5rem` = 24px, không quan tâm `div` là bao nhiêu.
+
+        Nếu lồng thêm một cấp nữa với `em`, giá trị sẽ **cộng dồn** theo cấp cha ngay phía trên nó:
+
+        ```html
+        <p style="font-size: 1.5em;">   <!-- cha: 20px → 1.5em = 30px -->
+            <span style="font-size: 1.5em;">Chữ này = 30 × 1.5 = 45px</span>
+        </p>
+        ```
+
+        Trong khi đó nếu dùng `rem` ở cả hai cấp, `span` vẫn ra đúng `1.5rem` = 24px như `p`, không nhân dồn thêm lần nữa.
+
+        Nếu đã khai báo chung `font-size` cho toàn bộ page (VD: `html { font-size: 62.5%; }` → `1rem = 10px`) mà không ghi đè riêng cho từng thẻ heading/`p`, các thẻ này sẽ dùng **font-size mặc định của trình duyệt (UA stylesheet)**, vốn tính theo đơn vị `em` **tương đối theo phần tử cha**:
+
+        | Thẻ | Mặc định trình duyệt (em) | Quy đổi ra px (khi `1rem = 10px`) | Tương đương rem |
+        |---|---|---|---|
+        | `h1` | `2em` | 20px | `2rem` |
+        | `h2` | `1.5em` | 15px | `1.5rem` |
+        | `h3` | `1.17em` | 11.7px | `1.17rem` |
+        | `h4` | `1em` | 10px | `1rem` |
+        | `h5` | `0.83em` | 8.3px | `0.83rem` |
+        | `h6` | `0.67em` | 6.7px | `0.67rem` |
+        | `p` | `1em` | 10px | `1rem` |
+
+        > Giá trị `em` chỉ quy đổi trùng khớp sang `rem` như trên khi phần tử cha (thường là `body`) không tự ghi đè `font-size` — tức là font-size của nó vẫn bằng font-size gốc (`html`). Nếu `body` (hoặc phần tử cha khác) có `font-size` riêng, `em` sẽ tính theo giá trị đó thay vì theo root, khi đó `em` và `rem` sẽ lệch nhau.
+        >
+        > Trong thực tế, phần lớn dự án sẽ **ghi đè tường minh lại các giá trị** này bằng `rem`(VD: `h1 { font-size: 3.2rem; }`) thay vì phụ thuộc vào mặc định trình duyệt, để đảm bảo nhất quán giữa các trình duyệt.
+
+        </details>
+
+        <br>
+
+    - **font-weight**: độ đậm của chữ. Giá trị số từ `100` (mảnh nhất) đến `900` (đậm nhất), hoặc từ khóa `normal` (= 400), `bold` (= 700):
+        ```css
+        h1 { font-weight: 700; }
+        p  { font-weight: normal; }
+        ```
+
+    - **font-family**: khai báo font chữ, thường liệt kê nhiều font dự phòng (fallback) theo thứ tự ưu tiên, kết thúc bằng một font hệ thống chung (`serif`, `sans-serif`, `monospace`...):
+        ```css
+        body { font-family: "Segoe UI", Roboto, Arial, sans-serif; }
+        ```
+
+        Lưu ý: cần `""` khi tên font chứa khoảng trắng hoặc ký tự đặc biệt (như "Segoe UI" trong ví dụ).
+
+    - **line-height**: khoảng cách giữa các dòng chữ. Nên dùng giá trị **không đơn vị** (VD: `1.5`) thay vì `px`/`em`, vì nó sẽ tự tính theo font-size của chính phần tử đó, tránh lỗi khi phần tử con có font-size khác:
+        ```css
+        p { line-height: 1.5; }
+        ```
+
+    - **color**: màu chữ — có thể khai báo bằng `hex`, `rgb()`/`rgba()`, `hsl()`, hoặc tên màu (`red`, `black`...):
+        ```css
+        p { color: #333; }
+        ```
+
+    - **text-align**: căn lề chữ theo chiều ngang — `left`, `right`, `center`, `justify`:
+        ```css
+        h1 { text-align: center; }
+        ```
+
+    - **text-decoration**: trang trí đường kẻ trên chữ — `underline` (gạch chân), `line-through` (gạch ngang), `none` (bỏ gạch chân, thường dùng cho thẻ `<a>`):
+        ```css
+        a { text-decoration: none; }
+        ```
+
+    - **letter-spacing** / **word-spacing**: khoảng cách giữa các ký tự / giữa các từ:
+        ```css
+        h1 { letter-spacing: 0.05em; }
+        ```
