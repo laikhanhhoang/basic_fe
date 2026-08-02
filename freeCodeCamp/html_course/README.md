@@ -14,7 +14,7 @@
 
 ### 1.1. `<meta>`
 
-Thẻ `<meta>` dùng để khai báo metadata (siêu dữ liệu) cho trang HTML — thông tin mô tả về trang nhưng không hiển thị trực tiếp cho người dùng. Đây cũng là thẻ tự đóng (self-closing), đặt trong `<head>`.
+Thẻ `<meta>` dùng để khai báo metadata (siêu dữ liệu) cho trang HTML — **thông tin mô tả** về trang **nhưng không hiển thị trực tiếp cho người dùng**. Đây cũng là thẻ tự đóng (self-closing), đặt trong `<head>`.
 
 ```html
 <!-- Cơ bản -->
