@@ -172,7 +172,7 @@ Các thuộc tính chính:
     ```
 
 ## 2. Body elements
-### 2.1. Text basic
+### 2.1. Text
 
 ```html
 <!-- Cơ bản -->
@@ -302,3 +302,125 @@ Các thuộc tính chính:
         ```css
         h1 { letter-spacing: 0.05em; }
         ```
+
+### 2.2. List
+
+```html
+<!-- Cơ bản -->
+<ul>
+    <li>Sữa</li>
+    <li>Trứng</li>
+</ul>
+
+<!-- Đầy đủ -->
+<ol type="A" reversed style="list-style-position: outside; font-size: 1.4rem; color: #333; line-height: 1.6;">
+    <li>Mục C</li>
+    <li>Mục B</li>
+    <li>Mục A</li>
+</ol>
+```
+
+- Các loại thẻ danh sách:
+
+    | Thẻ | Ý nghĩa | Ví dụ |
+    |---|---|---|
+    | `ul` | Danh sách không thứ tự (unordered list) — mỗi mục hiển thị bullet, dùng khi thứ tự các mục không quan trọng | `<ul><li>Mục 1</li></ul>` |
+    | `ol` | Danh sách có thứ tự (ordered list) — mỗi mục tự đánh số, dùng khi thứ tự có ý nghĩa (các bước, xếp hạng) | `<ol><li>Mục 1</li></ol>` |
+    | `li` | Một mục trong `ul`/`ol` (list item) | `<li>Nội dung</li>` |
+    | `dl` | Danh sách mô tả (description list) — gồm cặp thuật ngữ/định nghĩa | `<dl>...</dl>` |
+    | `dt` | Thuật ngữ (description term) trong `dl` | `<dt>HTML</dt>` |
+    | `dd` | Định nghĩa/mô tả (description definition) cho `dt` đứng trước nó | `<dd>Ngôn ngữ đánh dấu...</dd>` |
+
+    <details>
+    <summary>Ví dụ đầy đủ với <code>dl</code></summary>
+
+    Một `dt` có thể đi kèm nhiều `dd`, và một `dd` cũng có thể mô tả chung cho nhiều `dt` đứng liền trước:
+
+    ```html
+    <dl>
+        <dt>HTML</dt>
+        <dd>Ngôn ngữ đánh dấu dùng để xây dựng cấu trúc trang web.</dd>
+
+        <dt>Chó</dt>
+        <dt>Mèo</dt>
+        <dd>Đều là thú cưng phổ biến.</dd>
+    </dl>
+    ```
+
+    </details>
+
+- Các thuộc tính chính của `ol`:
+
+    | Thuộc tính | Ý nghĩa | Ví dụ |
+    |---|---|---|
+    | `type` | Kiểu đánh số: `1` (số, mặc định), `A`/`a` (chữ hoa/thường), `I`/`i` (số La Mã hoa/thường) | `<ol type="I">` |
+    | `start` | Số bắt đầu đếm (không đổi kiểu hiển thị, chỉ đổi giá trị) | `<ol start="5">` → mục đầu tiên là 5 |
+    | `reversed` | Đảo ngược thứ tự đếm (từ cao xuống thấp) | `<ol reversed>` → 3, 2, 1 |
+
+    `li` cũng có thuộc tính `value` để ghi đè số thứ tự cho riêng một mục (chỉ có tác dụng trong `ol`, các mục sau đó tiếp tục đếm từ giá trị này):
+
+    ```html
+    <ol>
+        <li>Một</li>
+        <li value="10">Mười</li>
+        <li>Mười một</li>
+    </ol>
+    ```
+
+- Danh sách lồng nhau (nested list) — đặt một `ul`/`ol` bên trong một `<li>` của danh sách cha:
+
+    ```html
+    <ul>
+        <li>Trái cây
+            <ul>
+                <li>Táo</li>
+                <li>Cam</li>
+            </ul>
+        </li>
+        <li>Rau củ</li>
+    </ul>
+    ```
+
+- Các thuộc tính CSS chính thường dùng để style cho danh sách:
+
+    - **list-style-type**: đổi kiểu bullet/số hiển thị — dùng thay cho thuộc tính HTML `type` (khuyến khích dùng CSS thay vì thuộc tính HTML để tách nội dung khỏi trình bày):
+
+        | Giá trị | Áp dụng cho | Ý nghĩa |
+        |---|---|---|
+        | `disc` | `ul` | Chấm tròn đặc — mặc định của `ul` |
+        | `circle` | `ul` | Chấm tròn rỗng |
+        | `square` | `ul` | Hình vuông |
+        | `decimal` | `ol` | Số `1, 2, 3` — mặc định của `ol` |
+        | `upper-alpha` / `lower-alpha` | `ol` | Chữ `A, B, C` / `a, b, c` |
+        | `upper-roman` / `lower-roman` | `ol` | Số La Mã `I, II, III` / `i, ii, iii` |
+        | `none` | `ul`/`ol` | Bỏ hết bullet/số |
+
+        ```css
+        ul { list-style-type: square; }
+        ol { list-style-type: upper-roman; }
+        ```
+
+    - **list-style-position**: vị trí bullet/số so với nội dung mục:
+
+        | Giá trị | Ý nghĩa |
+        |---|---|
+        | `outside` | Các dòng sau căn lề với dòng đầu — **mặc định** |
+        | `inside` | Các dòng sau căn lề với dấu bullet (xấu) |
+
+        ```css
+        ul { list-style-position: inside; }
+        ```
+
+    - **list-style-image**: dùng hình ảnh thay cho bullet mặc định:
+
+        ```css
+        ul { list-style-image: url("bullet.png"); }
+        ```
+
+    - **list-style**: shorthand gộp cả 3 thuộc tính trên theo thứ tự `type` `position` `image`:
+
+        ```css
+        ul { list-style: square inside url("bullet.png"); }
+        ```
+
+        > Muốn bỏ hoàn toàn bullet/số (VD khi dùng `ul` để làm menu điều hướng) thì dùng `list-style: none;`.
