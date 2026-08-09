@@ -1,0 +1,41 @@
+html {
+    font-size: 90%;
+}
+
+body {
+    background-color: #333;
+    color: white;
+}
+
+.square-list {
+    list-style-type: square;
+    list-style-position: outside;
+}
+
+.roman-list {
+    list-style-type: upper-roman;
+}
+
+.no-bullets {
+    list-style: none;
+}
+
+.footer-link {
+    text-decoration: none;
+}
+
+.footer-link:link {
+    color: blue;
+}
+
+.footer-link:visited {
+    color: purple;
+}
+
+.footer-link:hover {
+    color: red;
+}
+
+.footer-link:active {
+    color: orange;
+}

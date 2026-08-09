@@ -424,3 +424,82 @@ Các thuộc tính chính:
         ```
 
         > Muốn bỏ hoàn toàn bullet/số (VD khi dùng `ul` để làm menu điều hướng) thì dùng `list-style: none;`.
+
+### 2.3. Link
+
+```html
+<!-- Cơ bản -->
+<a href="https://www.google.com/">Google</a>
+
+<!-- Đầy đủ -->
+<a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Mở Google ở tab mới</a>
+```
+
+- Thuộc tính chính của `a`:
+
+    | Thuộc tính | Ý nghĩa | Ví dụ |
+    |---|---|---|
+    | `href` | Đường dẫn đích — bắt buộc để thẻ có tác dụng liên kết, thiếu `href` thì `a` chỉ là text thường | `<a href="about.html">Giới thiệu</a>` |
+    | `target` | Nơi mở liên kết: `_self` (mặc định, cùng tab) hoặc `_blank` (tab mới) | `<a href="..." target="_blank">` |
+    | `download` | Tải file về máy thay vì mở trong trình duyệt, có thể kèm tên file muốn lưu | `<a href="html5.png" download>Tải icon</a>` |
+    | `rel` | Khai báo quan hệ với trang đích; nên thêm `noopener noreferrer` khi dùng `target="_blank"` để tránh trang mới truy cập ngược lại `window.opener` (rủi ro bảo mật) | `<a ... target="_blank" rel="noopener noreferrer">` |
+
+- Các dạng giá trị `href` thường gặp:
+
+    | Dạng | Ý nghĩa | Ví dụ |
+    |---|---|---|
+    | URL tuyệt đối | Trỏ tới một trang bên ngoài domain hiện tại | `href="https://www.google.com/"` |
+    | Đường dẫn tương đối | Trỏ tới file khác trong cùng dự án, tính từ vị trí file hiện tại | `href="about.html"` |
+    | Đường dẫn gốc (`/`) | Trỏ tới trang chủ, tính từ gốc domain chứ không phải từ file hiện tại | `href="/"` |
+    | Neo trong trang (`#id`) | Cuộn tới phần tử có `id` tương ứng trên cùng trang; riêng `href="#"` (không có `id`) sẽ cuộn lên đầu trang | `href="#footer"` |
+    | `mailto:` | Mở ứng dụng mail mặc định của máy, soạn sẵn email gửi tới địa chỉ khai báo | `href="mailto:random@email.com"` |
+    | `tel:` | Gọi tới số điện thoại được ghi — hữu ích khi mở trên di động | `href="tel:+1234567890"` |
+
+    <details>
+    <summary>Ví dụ các dạng <code>href</code> đặc biệt</summary>
+
+    ```html
+    <li>Download an <a href="html5.png" download>HTML5 favicon</a></li>
+    <li>Contact me at <a href="mailto:random@email.com">my email address</a>.</li>
+    <li>Dial <a href="tel:+1234567890">my phone number</a>.</li>
+    <li>Open <a href="https://www.google.com/" target="_blank">Google</a> in a new tab.</li>
+    ```
+
+    </details>
+
+- Style liên kết bằng CSS dùng pseudo-class theo trạng thái. Nên khai báo đúng thứ tự **LVHA** (Link → Visited → Hover → Active), vì các rule khai báo sau sẽ đè lên rule trước nếu cùng độ ưu tiên:
+
+    | Pseudo-class | Ý nghĩa |
+    |---|---|
+    | `:link` | Liên kết chưa được truy cập |
+    | `:visited` | Liên kết đã được truy cập |
+    | `:hover` | Khi di chuột qua liên kết |
+    | `:active` | Khi đang nhấn giữ chuột trên liên kết |
+
+    ```css
+    a:link { color: blue; }
+    a:visited { color: purple; }
+    a:hover { color: red; text-decoration: none; }
+    a:active { color: orange; }
+    ```
+
+    Thuộc tính `style=""` (inline style) chỉ áp dụng style trực tiếp lên một phần tử cụ thể tại thời điểm đó — nó không có khái niệm "trạng thái" (state) như `:hover`, `:focus`, `:active`, `:nth-child()`,... Do đó, Pseudo-class cần một **selector** để trình duyệt biết khi nào áp dụng style này, mà inline style không có selector nào cả, nó chỉ là style luôn-luôn-đúng cho phần tử đó.
+
+    - Mặc định của trình duyệt (khi không tự khai báo gì) cho từng trạng thái:
+
+        | Trạng thái | Mặc định của trình duyệt |
+        |---|---|
+        | `:link` | `color: blue;` + gạch chân |
+        | `:visited` | `color: purple;` + gạch chân |
+        | `:hover` | Không đổi màu, chỉ đổi con trỏ chuột thành hình bàn tay |
+        | `:active` | Không đổi màu ở trình duyệt hiện đại — giữ nguyên màu của `:link`/`:visited` |
+
+    - Nếu khai báo **thiếu một trạng thái** (vd có `:link` mà không có `:visited`), trạng thái thiếu đó **không** tự rơi về mặc định trình duyệt, mà đi tìm rule gần nhất theo thứ tự ưu tiên:
+
+        1. Rule pseudo-class riêng cho trạng thái đó (nếu có khai)
+        2. Rule trên `.class`/thẻ `a` gốc, nếu rule đó có khai property tương ứng (vd `color`)
+        3. Giá trị kế thừa (`inherit`) từ phần tử cha
+        4. Chỉ khi hoàn toàn không có rule CSS nào của mình áp lên phần tử, mới rơi về mặc định trình duyệt ở bảng trên
+
+        Ví dụ: nếu chỉ viết `.footer-link { color: green; }` mà không khai riêng `:link`/`:visited`/`:hover`/`:active`, thì **mọi trạng thái** của link đó đều hiện màu `green` — vì đây là rule tác giả (author) duy nhất cho `color`, và CSS tự viết luôn đè lên CSS mặc định của trình duyệt bất kể độ ưu tiên (specificity), do khác nguồn gốc (origin) trong thứ tự cascade.
+
